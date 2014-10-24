@@ -40,7 +40,30 @@ app.use(function(req, res, next){
   next();
 });
 
+// Roles
+app.use(function(req, res, next) {
+  // Set the ACL as public to register the first user as admin
+  var adminACL = new Parse.ACL();
+  adminACL.setPublicReadAccess(true);
+  adminACL.setPublicWriteAccess(true);
+
+  // Create the admin role
+  var adminRole = new Parse.Role('admin', adminACL);
+  adminRole.save();
+
+  next();
+});
+
 // Routes
+// Validate admin access 
+app.all(/^\/admin(\/.*)/, function(req, res, next) {
+  if(!res.locals.user) {
+    res.redirect('/login');
+  }
+
+  next();
+});
+
 // Product
 var product = require(config.root + '/routes/product');
 app.get('/', product.products);
@@ -60,6 +83,7 @@ app.post('/signup', user.signup);
 app.post('/signin', user.signin);
 app.get('/signout', user.signout);
 app.get('/admin/clients', user.admin);
+app.get('/grant/:id', user.grant);
 
 // Category
 var category = require(config.root + '/routes/category');
