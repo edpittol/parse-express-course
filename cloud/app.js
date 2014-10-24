@@ -1,7 +1,8 @@
 // These two lines are required to initialize Express in Cloud Code.
 var express = require('express');
+var parseExpressCookieSession = require('parse-express-cookie-session');
+var parseExpressHttpsRedirect = require('parse-express-https-redirect');
 var app = express();
-var _ = require('underscore');
 
 // Configuration settings
 var config = {
@@ -33,6 +34,10 @@ app.configure('development', function() {
 app.set('views', config.root + '/views'); // Specify the folder to find templates
 app.set('view engine', 'ejs');            // Set the template engine
 app.use(express.bodyParser());            // Middleware for reading request body
+app.use(express.cookieParser('sm9vn&d6n%$')); // Define a cookie security key
+app.use(parseExpressCookieSession({ cookie: { maxAge: 360000 } })); // Set cookie time
+app.use(express.cookieSession());
+app.use(express.methodOverride());
 
 // Set logged user
 app.use(function(req, res, next){
@@ -43,6 +48,12 @@ app.use(function(req, res, next){
   res.locals.user = user; // Define the variable global
   next();
 });
+
+// Add unsderscore to use in templates
+app.use(function(req, res, next){
+  res.locals._ = require('underscore');
+  next();
+});     
 
 // Sidebar categories
 app.use(function(req, res, next) {
@@ -55,6 +66,7 @@ app.use(function(req, res, next) {
       next();
     },
     error: function(error) {
+      console.log(error);
       res.send(500, 'Internal Error');
     }
   });
@@ -76,7 +88,7 @@ app.use(function(req, res, next) {
 
 // Routes
 // Validate admin access 
-app.all(/^\/admin(\/.*)/, function(req, res, next) {
+app.all('/admin/*', function(req, res, next) {
   if(!res.locals.user) {
     res.redirect('/login');
   }
@@ -85,7 +97,7 @@ app.all(/^\/admin(\/.*)/, function(req, res, next) {
 });
 
 // Product
-var product = require(config.root + '/routes/product');
+var product = require(config.root + '/routes/product')(config);
 app.get('/', product.products);
 app.get('/product/:id', product.product);
 app.get('/admin/products', product.admin);
@@ -110,7 +122,7 @@ app.get('/admin/clients', user.admin);
 app.get('/grant/:id', user.grant);
 
 // Category
-var category = require(config.root + '/routes/category');
+var category = require(config.root + '/routes/category')(config);
 app.get('/category/:id', category.category);
 app.get('/admin/categories', category.admin);
 app.get('/admin/categories/:id', category.admin);

@@ -34,7 +34,8 @@ exports = module.exports = {
             } else {
               res.redirect('/');
             }
-          }, function() {
+          }, function(error) {
+            console.log(error);
             res.send(500, 'Internal Error');
           }
         );
@@ -88,7 +89,6 @@ exports = module.exports = {
                 res.send('Permission granted');
               },
               function(error) {
-                console.log(error);
                 res.send(500, 'Error on grant permission');
               }
             );
