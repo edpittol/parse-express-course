@@ -62,7 +62,7 @@ app.use(function(req, res, next) {
 
 // Routes
 // Validate admin access 
-app.all(/^\/admin(\/.*)/, function(req, res, next) {
+app.all('/admin/*', function(req, res, next) {
   if(!res.locals.user) {
     res.redirect('/login');
   }
