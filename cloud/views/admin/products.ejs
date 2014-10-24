@@ -1,0 +1,116 @@
+<% include header %>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>Products</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="box">
+        <div class="box-body no-padding">
+          <table class="table table-striped">
+            <tr>
+              <th style="width: 100px">Image</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Categories</th>
+              <th style="width: 120px">Actions</th>
+            </tr>
+            <tr>
+              <td>
+                <img src="/images/product-details/1.jpg" alt="Easy Polo Black Edition" class="img-thumbnail" width="100" />
+              </td>
+              <td>Easy Polo Black Edition</td>
+              <td>$56</td>
+              <td>
+                Kids<br />
+                Fashion<br />
+              </td>
+              <td>
+                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img src="/images/product-details/1.jpg" alt="Easy Polo Black Edition" class="img-thumbnail" width="100" />
+              </td>
+              <td>Easy Polo Blue Edition</td>
+              <td>$56</td>
+              <td>
+                Kids<br />
+                Fashion<br />
+              </td>
+              <td>
+                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
+              </td>
+            </tr>
+          </table>
+        </div><!-- /.box-body -->
+      </div><!-- /.box -->
+    </div>
+    <div class="col-lg-6">
+      <div class="box box-solid">
+        <div class="box-header">
+          <h3 class="box-title">Easy Polo Black Edition</h3>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          <form method="POST" action="#">
+            <p><strong>Created at:</strong> 99/99/9999</p>
+            <div class="form-group">
+              <label>Name</label>
+              <input name="name" class="form-control" type="text" value="Easy Polo Black Edition">
+            </div>
+            <div class="form-group">
+              <label>Price (in $)</label>
+              <input name="price" class="form-control" type="text" value="56">
+            </div>
+            <div class="form-group">
+              <label>Categories</label>
+              <select name="categories" class="form-control" multiple="">
+                <option value="Kids" selected="selected">Kids</option>
+                <option value="Fashion" selected="selected">Fashion</option>
+                <option value="Households">Households</option>
+                <option value="Interiors">Interiors</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Bags">Bags</option>
+                <option value="Shoes">Shoes</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Image</label>
+              <input name="image" id="exampleInputFile" type="file">
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-3">
+                  <img src="/images/product-details/1.jpg" alt="Easy Polo Black Edition" class="img-thumbnail"/>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox">
+                    <label>
+                      <input name="remove-image" type="checkbox"> Remove Image
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea name="description" class="form-control" rows="3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa doloremque quisquam neque ea totam temporibus quas fuga, asperiores nulla atque saepe eum. Non maiores atque, porro asperiores neque? Laudantium, facere. Rerum sed dicta dolore reiciendis recusandae tempora nostrum ex beatae omnis voluptatibus quis delectus, quia maxime unde qui quidem cumque repellat aperiam.</textarea>
+            </div>
+            <div class="form-group pull-right">
+              <input type="submit" value="Save" class="btn btn-primary">
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </div><!-- /.box-body -->
+    </div>
+  </div>
+</section>
+
+<% include footer %>
