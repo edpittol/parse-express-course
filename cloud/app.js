@@ -1,5 +1,7 @@
 // These two lines are required to initialize Express in Cloud Code.
 var express = require('express');
+var parseExpressCookieSession = require('parse-express-cookie-session');
+var parseExpressHttpsRedirect = require('parse-express-https-redirect');
 var app = express();
 
 // Configuration settings
@@ -30,6 +32,10 @@ app.configure('development', function() {
 app.set('views', config.root + '/views'); // Specify the folder to find templates
 app.set('view engine', 'ejs');            // Set the template engine
 app.use(express.bodyParser());            // Middleware for reading request body
+app.use(express.cookieParser('sm9vn&d6n%$')); // Define a cookie security key
+app.use(parseExpressCookieSession({ cookie: { maxAge: 360000 } })); // Set cookie time
+app.use(express.cookieSession());
+app.use(express.methodOverride());
 
 // Set logged user
 app.use(function(req, res, next){
@@ -73,7 +79,7 @@ app.use(function(req, res, next) {
 
 // Routes
 // Validate admin access 
-app.all(/^\/admin(\/.*)/, function(req, res, next) {
+app.all('/admin/*', function(req, res, next) {
   if(!res.locals.user) {
     res.redirect('/login');
   }
