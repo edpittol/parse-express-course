@@ -31,46 +31,30 @@ app.set('view engine', 'ejs');            // Set the template engine
 app.use(express.bodyParser());            // Middleware for reading request body
 
 // Routes
-app.get('/', function(req, res) {
-  res.render('products');
-});
+// Product
+var product = require(config.root + '/routes/product');
+app.get('/', product.products);
+app.get('/product', product.product);
+app.get('/admin/products', product.admin);
 
-app.get('/product', function(req, res) {
-  res.render('product');
-});
+// Order
+var order = require(config.root + '/routes/order');
+app.get('/cart', order.cart);
+app.get('/finish', order.finish);
+app.get('/admin', order.admin);
 
-app.get('/cart', function(req, res) {
-  res.render('cart');
-});
+// User
+var user = require(config.root + '/routes/user');
+app.get('/login', user.login);
+app.get('/admin/clients', user.admin);
 
-app.get('/login', function(req, res) {
-  res.render('login');
-});
+// Category
+var category = require(config.root + '/routes/category');
+app.get('/admin/categories', category.admin);
 
-app.get('/finish', function(req, res) {
-  res.render('finish');
-});
-
-// Backend routes
-app.get('/admin', function(req, res) {
-  res.render('admin/orders');
-});
-
-app.get('/admin/products', function(req, res) {
-  res.render('admin/products');
-});
-
-app.get('/admin/categories', function(req, res) {
-  res.render('admin/categories');
-});
-
-app.get('/admin/clients', function(req, res) {
-  res.render('admin/clients');
-});
-
-app.get('/admin/settings', function(req, res) {
-  res.render('admin/settings');
-});
+// Setting
+var setting = require(config.root + '/routes/setting');
+app.get('/admin/settings', setting.admin);
 
 // Attach the Express app to Cloud Code.
 app.listen(config.port);
