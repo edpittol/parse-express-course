@@ -28,5 +28,10 @@ exports = module.exports = {
         res.send(500, 'Invalid credentials.');
       }
     );
+  },
+
+  signout: function(req, res) {
+    Parse.User.logOut();
+    res.redirect('/');
   }
 }

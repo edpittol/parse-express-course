@@ -30,6 +30,16 @@ app.set('views', config.root + '/views'); // Specify the folder to find template
 app.set('view engine', 'ejs');            // Set the template engine
 app.use(express.bodyParser());            // Middleware for reading request body
 
+// Set logged user
+app.use(function(req, res, next){
+  var user = Parse.User.current();
+  if(user && !user.authenticated()) {
+    user = null; // Only get the user object if has a guarantee that is autenticated
+  }
+  res.locals.user = user; // Define the variable global
+  next();
+});
+
 // Routes
 // Product
 var product = require(config.root + '/routes/product');
@@ -48,6 +58,7 @@ var user = require(config.root + '/routes/user');
 app.get('/login', user.login);
 app.post('/signup', user.signup);
 app.post('/signin', user.signin);
+app.get('/signout', user.signout);
 app.get('/admin/clients', user.admin);
 
 // Category
