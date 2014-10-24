@@ -19,36 +19,31 @@
               <th>Categories</th>
               <th style="width: 120px">Actions</th>
             </tr>
+            <% for(var i = 0; i < products.length; i++) { %>
             <tr>
               <td>
                 <img src="/images/product-details/1.jpg" alt="Easy Polo Black Edition" class="img-thumbnail" width="100" />
               </td>
-              <td>Easy Polo Black Edition</td>
-              <td>$56</td>
+              <td><%= products[i].get('name') %></td>
+              <td>$<%= products[i].get('price') %></td>
               <td>
-                Kids<br />
-                Fashion<br />
+                <% 
+                  var productCategories = products[i].get('categories') || [];
+                  for(j = 0; j < productCategories.length; j++) { 
+                %>
+                <%= productCategories[j].get("name") %><br />
+                <% } %>
               </td>
               <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <img src="/images/product-details/1.jpg" alt="Easy Polo Black Edition" class="img-thumbnail" width="100" />
-              </td>
-              <td>Easy Polo Blue Edition</td>
-              <td>$56</td>
-              <td>
-                Kids<br />
-                Fashion<br />
-              </td>
-              <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
+                <a class="btn btn-default" href="/admin/products/<%= products[i].id %>">
+                  <i class="fa fa-edit"></i>
+                </a>
+                <a class="btn btn-default" href="/admin/products/<%= products[i].id %>/delete">
+                  <i class="fa fa-times"></i>
+                </a>
               </td>
             </tr>
+            <% } %>
           </table>
         </div><!-- /.box-body -->
       </div><!-- /.box -->
@@ -56,29 +51,40 @@
     <div class="col-lg-6">
       <div class="box box-solid">
         <div class="box-header">
-          <h3 class="box-title">Easy Polo Black Edition</h3>
+          <h3 class="box-title">
+            <% if(editProduct.get('name')) { %>
+              <%= editProduct.get('name') %>
+            <% } else { %>
+              New Product
+            <% } %>
+          </h3>
         </div><!-- /.box-header -->
         <div class="box-body">
-          <form method="POST" action="#">
-            <p><strong>Created at:</strong> 99/99/9999</p>
+          <form method="POST" action="">
+            <% if(editProduct.createdAt) { %>
+            <p><strong>Created at:</strong> <%= editProduct.createdAt %></p>
+            <% } %>
             <div class="form-group">
               <label>Name</label>
-              <input name="name" class="form-control" type="text" value="Easy Polo Black Edition">
+              <input name="name" class="form-control" type="text" value="<%= editProduct.get('name') %>">
             </div>
             <div class="form-group">
               <label>Price (in $)</label>
-              <input name="price" class="form-control" type="text" value="56">
+              <input name="price" class="form-control" type="text" value="<%= editProduct.get('price') %>">
             </div>
             <div class="form-group">
               <label>Categories</label>
-              <select name="categories" class="form-control" multiple="">
-                <option value="Kids" selected="selected">Kids</option>
-                <option value="Fashion" selected="selected">Fashion</option>
-                <option value="Households">Households</option>
-                <option value="Interiors">Interiors</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Bags">Bags</option>
-                <option value="Shoes">Shoes</option>
+              <select name="category" class="form-control">
+                <option value=""></option>
+                <% for(i = 0; i < categories.length; i++) { %>
+                <option name="category" value="<%= categories[i].id %>"  
+                  <% if(editProduct.get("category") && editProduct.get("category").id == categories[i].id) { %>
+                  selected="selected"
+                  <% } %>
+                >
+                  <%= categories[i].get("name") %>
+                </option>
+                <% } %>
               </select>
             </div>
             <div class="form-group">
@@ -88,7 +94,7 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-3">
-                  <img src="/images/product-details/1.jpg" alt="Easy Polo Black Edition" class="img-thumbnail"/>
+                  <img src="/images/product-details/1.jpg" alt="<%= editProduct.get("name") %>" class="img-thumbnail"/>
                 </div>
                 <div class="col-md-3">
                   <div class="checkbox">
@@ -101,7 +107,7 @@
             </div>
             <div class="form-group">
               <label>Description</label>
-              <textarea name="description" class="form-control" rows="3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa doloremque quisquam neque ea totam temporibus quas fuga, asperiores nulla atque saepe eum. Non maiores atque, porro asperiores neque? Laudantium, facere. Rerum sed dicta dolore reiciendis recusandae tempora nostrum ex beatae omnis voluptatibus quis delectus, quia maxime unde qui quidem cumque repellat aperiam.</textarea>
+              <textarea name="description" class="form-control" rows="3"><%= editProduct.get('description') %></textarea>
             </div>
             <div class="form-group pull-right">
               <input type="submit" value="Save" class="btn btn-primary">

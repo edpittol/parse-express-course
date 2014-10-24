@@ -1,6 +1,7 @@
 // These two lines are required to initialize Express in Cloud Code.
 var express = require('express');
 var app = express();
+var _ = require('underscore');
 
 // Configuration settings
 var config = {
@@ -19,6 +20,8 @@ app.configure('development', function() {
   config.port = 3000;
   config.root = __dirname;
   GLOBAL.config = config;
+
+  GLOBAL._ = _;
   
   // Add public directory
   app.use(express.static(config.root + '/../public'));
@@ -84,9 +87,12 @@ app.all(/^\/admin(\/.*)/, function(req, res, next) {
 // Product
 var product = require(config.root + '/routes/product');
 app.get('/', product.products);
-app.get('/category/:id', product.products);
-app.get('/product', product.product);
+app.get('/product/:id', product.product);
 app.get('/admin/products', product.admin);
+app.get('/admin/products/:id', product.admin);
+app.get('/admin/products/:id/delete', product.delete);
+app.post('/admin/products', product.save);
+app.post('/admin/products/:id', product.save);
 
 // Order
 var order = require(config.root + '/routes/order');
@@ -105,6 +111,7 @@ app.get('/grant/:id', user.grant);
 
 // Category
 var category = require(config.root + '/routes/category');
+app.get('/category/:id', category.category);
 app.get('/admin/categories', category.admin);
 app.get('/admin/categories/:id', category.admin);
 app.get('/admin/categories/:id/delete', category.delete);

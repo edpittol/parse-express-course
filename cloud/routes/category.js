@@ -1,6 +1,31 @@
 var Category = require(config.root + '/models/category');
+var Product = require(config.root + '/models/product');
 
 exports = module.exports = {
+  category: function(req, res) {
+    var query = new Parse.Query(Category);
+    query.equalTo("objectId", req.params.id);
+    promise = query.first({
+      success: function(category) {
+        var query = new Parse.Query(Product);
+        query.equalTo("category", category);
+        query.find({
+          success: function(products) {
+            res.render('products', {
+              products : products
+            });
+          }, 
+          error: function(error) {
+            res.send(500, 'Internal Error');
+          } 
+        });
+      }, 
+      error: function(error) {
+        res.send(500, 'Internal Error');
+      } 
+    });
+  },
+
   admin: function(req, res) {
     // Create a Promise with all categories
     var allQuery = new Parse.Query(Category);
@@ -40,7 +65,7 @@ exports = module.exports = {
         success: function(category) {
           res.redirect('/admin/categories');
         }, 
-        error: function(term, error) {
+        error: function(error) {
           res.send(500, 'Internal Error');
         } 
       });

@@ -16,9 +16,9 @@
           </div>
           <div class="col-sm-7">
             <div class="product-information"><!--/product-information-->
-              <h2>Anne Klein Sleeveless Colorblock Scuba</h2>
+              <h2><%= product.get("name") %></h2>
               <span>
-                <span>US $59</span>
+                <span>US $<%= product.get("price") %></span>
                 <label>Quantity:</label>
                 <input type="text" value="3" />
                 <button type="button" class="btn btn-fefault cart">
@@ -27,7 +27,7 @@
                 </button>
               </span>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa doloremque quisquam neque ea totam temporibus quas fuga, asperiores nulla atque saepe eum. Non maiores atque, porro asperiores neque? Laudantium, facere. Rerum sed dicta dolore reiciendis recusandae tempora nostrum ex beatae omnis voluptatibus quis delectus, quia maxime unde qui quidem cumque repellat aperiam.
+                <%= product.get("description") %>
               </p>
             </div><!--/product-information-->
           </div>
