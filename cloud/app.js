@@ -1,12 +1,37 @@
+var express = require('express');
+var app = express();
+
+// Configuration settings
+var config = {
+  port: 80,
+  root: 'cloud'
+};
+app.configure('development', function() {
+  // Initialize Parse
+  var global = require('../config/global.json');
+  var keys = global.applications[global.applications._default.link];
+  Parse = require('parse').Parse;
+  Parse.initialize(keys.applicationId, keys.javascriptKey, keys.masterKey);
+  GLOBAL.Parse = Parse;
+
+  // Change configuration to local env
+  config.port = 3000;
+  config.root = __dirname;
+  
+  // Add public directory
+  app.use(express.static(config.root + '/../public'));
+
+  console.log("Starting web server on port %d", config.port);
+});
 
 // These two lines are required to initialize Express in Cloud Code.
 var express = require('express');
 var app = express();
 
 // Global app configuration section
-app.set('views', 'cloud/views');  // Specify the folder to find templates
-app.set('view engine', 'ejs');    // Set the template engine
-app.use(express.bodyParser());    // Middleware for reading request body
+app.set('views', config.root + '/views'); // Specify the folder to find templates
+app.set('view engine', 'ejs');            // Set the template engine
+app.use(express.bodyParser());            // Middleware for reading request body
 
 // This is an example of hooking up a request handler with a specific request
 // path and HTTP verb using the Express routing API.
@@ -27,4 +52,4 @@ app.get('/hello', function(req, res) {
 // });
 
 // Attach the Express app to Cloud Code.
-app.listen();
+app.listen(config.port);

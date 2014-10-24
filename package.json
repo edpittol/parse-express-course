@@ -1,0 +1,17 @@
+{
+  "name": "parse-store",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node cloud/app.js"
+  },
+  "dependencies": {
+    "ejs": "0.8.3",
+    "express": "3.1.0",
+    "parse-express-https-redirect": "0.0.1",
+    "parse-express-raw-body": "0.0.1",
+    "parse-express-cookie-session": "0.0.3",
+    "underscore": "1.4.2",
+    "parse": "^1.2.19"
+  }
+}
