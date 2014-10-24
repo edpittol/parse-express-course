@@ -18,6 +18,7 @@ app.configure('development', function() {
   // Change configuration to local env
   config.port = 3000;
   config.root = __dirname;
+  GLOBAL.config = config;
   
   // Add public directory
   app.use(express.static(config.root + '/../public'));
@@ -38,6 +39,22 @@ app.use(function(req, res, next){
   }
   res.locals.user = user; // Define the variable global
   next();
+});
+
+// Sidebar categories
+app.use(function(req, res, next) {
+  var Category = require(config.root + '/models/category');
+  var query = new Parse.Query(Category);
+  query.ascending("name");
+  query.find({
+    success: function(results) {
+      res.locals.sidebarCategories = results;
+      next();
+    },
+    error: function(error) {
+      res.send(500, 'Internal Error');
+    }
+  });
 });
 
 // Roles
@@ -67,6 +84,7 @@ app.all(/^\/admin(\/.*)/, function(req, res, next) {
 // Product
 var product = require(config.root + '/routes/product');
 app.get('/', product.products);
+app.get('/category/:id', product.products);
 app.get('/product', product.product);
 app.get('/admin/products', product.admin);
 
@@ -88,6 +106,10 @@ app.get('/grant/:id', user.grant);
 // Category
 var category = require(config.root + '/routes/category');
 app.get('/admin/categories', category.admin);
+app.get('/admin/categories/:id', category.admin);
+app.get('/admin/categories/:id/delete', category.delete);
+app.post('/admin/categories', category.save);
+app.post('/admin/categories/:id', category.save);
 
 // Setting
 var setting = require(config.root + '/routes/setting');

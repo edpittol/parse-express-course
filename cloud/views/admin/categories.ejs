@@ -16,55 +16,19 @@
               <th>Name</th>
               <th style="width: 120px">Actions</th>
             </tr>
+            <% for(var i = 0; i < categories.length; i++) { %>
             <tr>
-              <td>Kids</td>
+              <td><%= categories[i].get('name') %></td>
               <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
+                <a class="btn btn-default" href="/admin/categories/<%= categories[i].id %>">
+                  <i class="fa fa-edit"></i>
+                </a>
+                <a class="btn btn-default" href="/admin/categories/<%= categories[i].id %>/delete">
+                  <i class="fa fa-times"></i>
+                </a>
               </td>
             </tr>
-            <tr>
-              <td>Fashion</td>
-              <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>Households</td>
-              <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>Clothing</td>
-              <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>Kids</td>
-              <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>Bags</td>
-              <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>Shoes</td>
-              <td>
-                <a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default" href="#"><i class="fa fa-times"></i></a>
-              </td>
-            </tr>
+            <% } %>
           </table>
         </div><!-- /.box-body -->
       </div><!-- /.box -->
@@ -72,17 +36,25 @@
     <div class="col-lg-6">
       <div class="box box-solid">
         <div class="box-header">
-          <h3 class="box-title">Kids</h3>
+          <h3 class="box-title">
+            <% if(editCategory.get('name')) { %>
+              <%= editCategory.get('name') %>
+            <% } else { %>
+              New Category
+            <% } %>
+          </h3>
         </div><!-- /.box-header -->
         <div class="box-body">
-          <form method="POST" action="#">
-            <p><strong>Created at:</strong> 99/99/9999</p>
+          <form method="POST" action="">
+            <% if(editCategory.createdAt) { %>
+            <p><strong>Created at:</strong> <%= editCategory.createdAt %></p>
+            <% } %>
             <div class="form-group">
               <label>Name</label>
-              <input name="name" class="form-control" type="text" value="Kids">
+              <input name="name" class="form-control" type="text" value="<%= editCategory.get('name') %>">
             </div>
             <div class="form-group pull-right">
-              <input type="submit" value="Save" class="btn btn-primary" />
+              <input type="submit" value="Save" class="btn btn-primary">
             </div>
             <div class="clearfix"></div>
           </form>
