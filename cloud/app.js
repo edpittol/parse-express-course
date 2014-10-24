@@ -20,7 +20,6 @@ app.configure('development', function() {
   // Change configuration to local env
   config.port = 3000;
   config.root = __dirname;
-  GLOBAL.config = config;
   
   // Add public directory
   app.use(express.static(config.root + '/../public'));
@@ -110,7 +109,7 @@ app.get('/admin/clients', user.admin);
 app.get('/grant/:id', user.grant);
 
 // Category
-var category = require(config.root + '/routes/category');
+var category = require(config.root + '/routes/category')(config);
 app.get('/admin/categories', category.admin);
 app.get('/admin/categories/:id', category.admin);
 app.get('/admin/categories/:id/delete', category.delete);
