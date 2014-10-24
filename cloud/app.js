@@ -47,6 +47,7 @@ app.get('/admin', order.admin);
 var user = require(config.root + '/routes/user');
 app.get('/login', user.login);
 app.post('/signup', user.signup);
+app.post('/signin', user.signin);
 app.get('/admin/clients', user.admin);
 
 // Category

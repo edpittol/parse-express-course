@@ -18,5 +18,15 @@ exports = module.exports = {
         res.send(500, 'Error on sign up.');
       }
     );
+  },
+
+  signin: function(req, res) {
+    Parse.User.logIn(req.body.email, req.body.password).then(
+      function() {
+        res.redirect('/');
+      }, function() {
+        res.send(500, 'Invalid credentials.');
+      }
+    );
   }
 }
